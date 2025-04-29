@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.12"
+uvicorn = {extras = ["standard"], version = "^0.34.2"}
+redis = "^5.2.1"
+sqlmodel = "^0.0.24"
+psycopg2-binary = "^2.9.10"
+python-dotenv = "^1.1.0"
+python-jose = "^3.4.0"
+passlib = "^1.7.4"
+alembic = "^1.15.2"
+psycopg2 = "^2.9.10"
+email-validator = "^2.2.0"
+aiosmtplib = "^4.0.0"
+apscheduler = "^3.11.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

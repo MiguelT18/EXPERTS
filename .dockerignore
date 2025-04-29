@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# Entornos virtuales
+.venv/
+.env/
+
+# Cachés y otros directorios de herramientas
+.mypy_cache/
+.pytest_cache/
+.poetry/
+.pip/
+
+# Archivos de Git
+.git/
+
+# Archivos temporales de editores de texto
+.vscode/
+
+# Logs y archivos temporales
+*.log
+*.bak
+*.swp
+
+# Archivos específicos de Docker que no se deben copiar
+.dockerignore
+Dockerfile
+docker-compose.yml
+docker-compose.prod.yml

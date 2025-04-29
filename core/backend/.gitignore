@@ -1,0 +1,10 @@
+# Ignorar virtualenv
+venv/
+__pycache__/
+
+# Ignorar migraciones y archivos específicos
+alembic.ini
+migrations/
+
+# Ignorar archivos de test temporales
+*.log

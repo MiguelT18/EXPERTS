@@ -1,0 +1,24 @@
+# archivos de entorno
+.env
+
+# configuraciones del editor
+.vscode/
+.idea/
+
+# archivos de log
+*.log
+
+# dependencias de Python
+venv/
+__pycache__/
+
+# archivos compilados
+*.pyc
+*.pyo
+
+# node_modules
+node_modules/
+
+# jenkins
+docker/jenkins/*
+!docker/jenkins/Dockerfile
