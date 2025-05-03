@@ -239,20 +239,21 @@ async def sign_in(
     "token_type": "bearer"
   }
 
-@router.post("/sign-out", status_code=status.HTTP_200_OK)
+@router.post("/sign-out/{user_id}", status_code=status.HTTP_200_OK)
 async def sign_out(
-  payload: dict,
+  user_id: str,
   session: Session = Depends(get_session),
   redis: Redis = Depends(get_redis)
 ):
-  user_id = payload.get("user_id")
-  if not user_id:
+  try:
+    user_id = UUID(user_id)
+  except ValueError:
     raise HTTPException(
       status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-      detail="El ID del usuario es requerido."
+      detail="ID de usuario inválido."
     )
 
-  db_user = session.get(User, UUID(user_id))
+  db_user = session.get(User, user_id)
   if not db_user:
     raise HTTPException(
       status_code=status.HTTP_404_NOT_FOUND,
@@ -271,8 +272,9 @@ async def sign_out(
 
   return {"message": "Sesión cerrada correctamente."}
 
-@router.post("/refresh-token", status_code=status.HTTP_200_OK)
+@router.post("/refresh-token/{user_id}", status_code=status.HTTP_200_OK)
 async def refresh_token(
+  user_id: str,
   request: Request,
   response: Response,
   session: Session = Depends(get_session),
@@ -288,7 +290,6 @@ async def refresh_token(
   try:
     payload = jwt.decode(refresh_token)
     user_id = payload.get("sub")
-    jti = payload.get("jti")
   except Exception:
     raise HTTPException(
       status_code=status.HTTP_401_UNAUTHORIZED,
@@ -352,13 +353,13 @@ async def refresh_token(
     "token_type": "bearer"
   }
 
-@router.delete("/delete", status_code=status.HTTP_200_OK)
+@router.delete("/delete/{user_id}", status_code=status.HTTP_200_OK)
 async def delete_user(
-  payload: dict,
+  user_id: str,
   session: Session = Depends(get_session),
   _: User = Depends(get_current_admin)
 ):
-  user = session.get(User, UUID(payload.get("user_id")))
+  user = session.get(User, UUID(user_id))
   if not user:
     raise HTTPException(
       status_code=status.HTTP_404_NOT_FOUND,

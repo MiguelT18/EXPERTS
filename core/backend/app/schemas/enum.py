@@ -16,6 +16,7 @@ class BranchStatus(str, Enum):
 class UserRole(str, Enum):
 	USER = "USER"
 	ADMIN = "ADMIN"
+	OWNER = "OWNER"
 
 class ResourceStatus(str, Enum):
 	ACTIVE = "ACTIVE"

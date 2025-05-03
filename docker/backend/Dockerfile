@@ -1,6 +1,6 @@
-# syntax=docker/dockerfile:1.4
 FROM python:3.12-slim AS base
 
+# Variables de entorno
 ENV PYTHONDONTWRITEBYTECODE=1 \
   PYTHONUNBUFFERED=1 \
   POETRY_VERSION=1.8.2 \
@@ -8,14 +8,16 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Sistema base y Poetry
+# Sistema base
 RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential gcc libpq-dev curl git netcat-openbsd && \
   apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Instalar Poetry
 RUN curl -sSL https://install.python-poetry.org | python3 - && \
   ln -s /root/.local/bin/poetry /usr/local/bin/poetry
-  
+
+# Configuración de Poetry
 RUN poetry config virtualenvs.create false
 
 # Instalar solo dependencias de producción
@@ -27,4 +29,5 @@ COPY core/backend/. .
 
 EXPOSE 8000
 
+# Iniciar el servidor
 ENTRYPOINT ["sh", "-c", "until nc -z -v -w30 postgres 5432; do echo 'Waiting for postgres...'; sleep 5; done; echo 'Postgres is up!'; uvicorn run:app --host 0.0.0.0 --port 8000 --reload"]

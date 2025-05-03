@@ -3,8 +3,9 @@ venv/
 __pycache__/
 
 # Ignorar migraciones y archivos específicos
-alembic.ini
-migrations/
+migrations/*
+!migrations/env.py
+!migrations/versions/
 
 # Ignorar archivos de test temporales
 *.log
